@@ -17,8 +17,11 @@ import { chatSetting } from "./chat";
 export const KnowledgeCutOffDate: Record<string, string> = {
   default: "2021-09",
   "gpt-4-1106-preview": "2023-04",
-  "gpt-4-0125-preview": "2023-04",
+  "gpt-4-0125-preview": "2023-12",
   "gpt-4-vision-preview": "2023-04",
+  "gpt-4-turbo-2024-04-09": "2023-12", 
+  "gpt-4-turbo": "2023-12",
+  "gpt-4-turbo-preview": "2023-12",
   "claude-3-opus-20240229": "2023-08",
   "claude-3-sonnet-20240229": "2023-08",
 };
@@ -467,6 +470,8 @@ export const countTokens= async ( dataSources:Chat.Chat[], input:string ,uuid:nu
     const max= getModelMax(model );
     let unit= 1024;
     if(  model=='gpt-4-1106-preview' || model=='gpt-4-vision-preview' ) unit=1000;
+    //gpt-4-turbo-2024-04-09
+    if (model.indexOf('gpt-4-turbo')>-1 ) unit=1000;
     rz.modelTokens= `${max}k`
     //cl100k_base.encode(input)
 
@@ -490,6 +495,8 @@ const getModelMax=( model:string )=>{
         return 16;
     }else if( model.indexOf('32k')>-1  ){
         return 32;
+    }else if( model.indexOf('gpt-4-turbo')>-1  ){
+        return 128; 
     }else if( model.indexOf('64k')>-1  ){
         return 64;
     }else if( model.indexOf('128k')>-1 
