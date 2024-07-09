@@ -399,7 +399,52 @@ export default {
     "menuinfo": "Suno Müzik Oluşturma",
     "server": "Suno API Uç Noktası",
     "serverabout": "Suno İlgili",
-    "setOpenKeyPlaceholder": "Suno API için İlgili Anahtar; isteğe bağlı"
-   }
+    "setOpenKeyPlaceholder": "Suno API için İlgili Anahtar; isteğe bağlı",
 
+    upMps: 'Ses yükle',
+    extend: 'Genişlet',
+    extendFrom: 'Şundan genişlet',
+    extendAt: 'Genişletmeyi başlat',
+    fail: 'Başarısız',
+    info: 'Açıklamalar:<br>Yüklenen sesin süresi 6 saniye ile 60 saniye arasında olmalıdır'
+   }
+   ,video:{
+    "menu": "Videolar",
+    "menuinfo": "Luma ve diğer video oluşturma",
+    "descpls": "Video oluşturma açıklaması",
+    "lumaabout": "Luma Hakkında",
+    "lumaserver": "Luma API adresi",
+    "setOpenKeyPlaceholder": "Luma API anahtarı, isteğe bağlı",
+    "generate": "Video Oluştur",
+    "nodata": "Mevcut video yok, lütfen önce oluşturun!",
+    "selectimg": "Resim Seç",
+    "clear": "Temizle",
+    "plsInput": "Lütfen içerik girin!",
+    "submitSuccess": "Başarıyla gönderildi!",
+    "process": "Video oluşturuluyor...",
+    "repeat": "Yeniden dene"
+    }
+    ,
+    dance:{
+        menu: "Dans",
+        menuinfo: "Viggle ve diğerleri ile dans videoları oluşturun.",
+        character: "Karakter",
+        viggleabout: "Viggle Hakkında",
+        viggleserver: "Viggle API Endpoint",
+        setOpenKeyPlaceholder: "Viggle API anahtarı, isteğe bağlı",
+        info: "Yönergeler:<br>1. Karakter görüntüleri tercihen tam boy fotoğraflar olmalıdır.<br>2. Dans şablonu videoları kişisel videolar olmalı, grup dansları değil.",
+        model: "Model",
+        bgw: "Beyaz Arka Plan",
+        bgg: "Yeşil Arka Plan",
+        bgmoban: "Şablon Arka Planı",
+        bgrole: "Karakter Arka Planı",
+        gring: "Oluşturuluyor...",
+        uprolefirst: "Lütfen önce karakter resmi yükleyin",
+        uprolefail: "Yükleme başarısız oldu",
+        upvideo: "+ Şablon Dans Videosu Yükle",
+        usevideo: "+ Resmi Şablonu Kullan",
+        moban: "Dans Şablonu",
+        moban2: "Şablon Adı",
+        use: "Kullan"
+    }
   }
