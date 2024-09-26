@@ -1,8 +1,9 @@
 import { gptServerStore, homeStore, useAuthStore } from "@/store";
 import { mlog } from "./mjapi";
+import { KlingTask, klingStore } from "./klingStore";
 import { sleep } from "./suno";
-import { ViggleTask, viggleStore } from "./viggleStore";
-import { lumaHkStore } from "./lumaStore";
+
+
 
 function getHeaderAuthorization(){
     let headers={}
@@ -10,7 +11,7 @@ function getHeaderAuthorization(){
         const  vtokenh={ 'x-vtoken':  homeStore.myData.vtoken ,'x-ctoken':  homeStore.myData.ctoken};
         headers= {...headers, ...vtokenh}
     }
-    if(!gptServerStore.myData.VIGGLE_KEY){
+    if(!gptServerStore.myData.KLING_KEY){ 
         const authStore = useAuthStore()
         if( authStore.token ) {
             const bmi= { 'x-ptoken':  authStore.token };
@@ -20,7 +21,7 @@ function getHeaderAuthorization(){
         return headers
     }
     const bmi={
-        'Authorization': 'Bearer ' +gptServerStore.myData.VIGGLE_KEY
+        'Authorization': 'Bearer ' +gptServerStore.myData.KLING_KEY
     }
     headers= {...headers, ...bmi }
     return headers
@@ -29,48 +30,18 @@ function getHeaderAuthorization(){
 export const  getUrl=(url:string)=>{
     if(url.indexOf('http')==0) return url;
     
-    const pro_prefix= url.indexOf('/pro')>-1?'/pro':'';//homeStore.myData.is_luma_pro?'/pro':''
+    const pro_prefix= '';//homeStore.myData.is_luma_pro?'/pro':''
     url= url.replaceAll('/pro','')
-    if(gptServerStore.myData.VIGGLE_SERVER){
-        if(gptServerStore.myData.VIGGLE_SERVER.indexOf('/pro')>0){
-            return `${ gptServerStore.myData.VIGGLE_SERVER}/viggle${url}`;
-        }
-        return `${ gptServerStore.myData.VIGGLE_SERVER}${pro_prefix}/viggle${url}`;
+    if(gptServerStore.myData.KLING_SERVER  ){
+      
+        return `${ gptServerStore.myData.RUNWAY_SERVER}${pro_prefix}/kling${url}`;
     }
-    return `${pro_prefix}/viggle${url}`;
+    return `${pro_prefix}/kling${url}`;
 }
 
-export interface tagInfo {
-    id: string;
-    name: string;
-    sort: number;
-}
-export interface ViggleTemplate {
-    id: string;
-    processedURL: string;
-    processedHdURL: string;
-    processedCoverURL: string;
-    command?: string;
-    webCommand?: string;
-    description: string;
-    webStatus?: number;
-    dcStatus?: number;
-    appStatus?: number;
-    bgURL?: string;
-    bgCoverURL?: string;
-    displayURL?: string;
-    displayHdURL?: string;
-    displayCoverURL?: string;
-    gifURL?: string;
-    webPURL?: string;
-    source?: string;
-    sort?: number;
-    width?: number;
-    height?: number;
-}
- 
-export const viggleFetch=(url:string,data?:any,opt2?:any )=>{
-    mlog('viggleFetch', url  );
+
+export const klingFetch=(url:string,data?:any,opt2?:any )=>{
+    mlog('runwayFetch', url  );
     let headers= opt2?.upFile?{}: {'Content-Type':'application/json'}
      
     if(opt2 && opt2.headers ) headers= opt2.headers;
@@ -120,24 +91,36 @@ export const viggleFetch=(url:string,data?:any,opt2?:any )=>{
 
 }
 
-export  async function FeedViggleTask(id:string){  
-    const ss = new viggleStore()
-    const hk= new lumaHkStore();
-    const hkObj= hk.getOneById(id)
-    for(let i=0; i<500;i++){
-        let url= '/video-task/by-ids';
-        if(hkObj && hkObj.isHK ) url= '/pro/video-task/by-ids';
-        const d= await viggleFetch(url,{ids:[id]})
-        mlog('FeedViggleTask', d )
-       
-        if(d.data && d.data.length>0){
-            let task= d.data[0] as ViggleTask;
-            task.last_feed=new Date().getTime()
-            ss.save( task )
-            homeStore.setMyData({act:'FeedViggleTask'})
-            if ( d.data[0].status==0) return
-        }
-        await sleep(2000)
+export const klingFeed= async(id:string,cat:string,prompt:string)=>{
+    const sunoS = new klingStore();
+    let url= '/v1/images/generations/' //images或videos
+    if (cat=='text2video'){
+        url='/v1/videos/text2video/';
     }
-
+    if(cat=='image2video'){
+        url='/v1/videos/image2video/';
+    }
+    url= url+id;
+    for(let i=0; i<200;i++){
+        try{
+            
+            let a= await klingFetch( url )
+            let task= a  as KlingTask;
+            task.last_feed=new Date().getTime()
+            task.cat= cat
+            if(prompt){
+              task.prompt= prompt
+            }
+            //ss.save( task )
+            //mlog("a",a  )
+            sunoS.save( task )
+            homeStore.setMyData({act:'KlingFeed'});
+            if(  task.data.task_status =='failed' || 'succeed'== task.data.task_status ){
+                break;
+            }
+        }catch(e){
+            break;
+        }
+        await sleep(5200)
+    }
 }
