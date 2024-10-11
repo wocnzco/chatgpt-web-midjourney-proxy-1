@@ -20,7 +20,7 @@ const load = async ()=>{
         try {
             let base64 = await localGet(key );  
             if(!base64) {
-                const ubase64=  await url2base64(`https://wsrv.nl/?url=${encodeURIComponent(pp.item.src)}`  ,key );
+                const ubase64=  await url2base64(`https://tuku.weibo.co/?url=${encodeURIComponent(pp.item.src)}`  ,key );
                 base64= ubase64.base64;
                 mlog('图片已保存>>', ubase64.key )
             }
