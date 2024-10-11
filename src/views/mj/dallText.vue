@@ -22,7 +22,7 @@ const load = async ()=>{
             //await loadImg(chat.value.opt?.imageUrl);
             let base64 = await localGet(key );  
             if(!base64) {
-                const ubase64=  await url2base64(`https://wsrv.nl/?url=${encodeURIComponent(chat.value.opt?.imageUrl)}`  ,key );
+                const ubase64=  await url2base64(`https://tuku.weibo.co/?url=${encodeURIComponent(chat.value.opt?.imageUrl)}`  ,key );
                 base64= ubase64.base64;
                 mlog('图片已保存>>', ubase64.key )
             }
