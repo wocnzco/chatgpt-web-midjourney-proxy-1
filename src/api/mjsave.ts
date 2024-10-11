@@ -73,7 +73,7 @@ export const wsrvUrl=(url:string)=>{
     if( arr.length==3){
         url= `https://cdn.discordapp.com/${arr[1]}ttachments`+ arr[2];
     }
-    return `https://wsrv.nl/?url=`+ encodeURIComponent(url);
+    return `https://tuku.weibo.co/?url=`+ encodeURIComponent(url);
 }
 
 export const mjImgUrl= (url:string)=>{
