@@ -29,7 +29,7 @@ const getNowCls=(v:any)=>{
 }
 const goPlay=(v:SunoMedia)=>{
     if(v.status=='error'){
-        ms.info("这首歌生成失败！")
+        ms.info( t('mj.ud_fail'))
         return ;
     }
     st.value.playid=v.id
@@ -102,7 +102,7 @@ initLoad();
                 </n-image>
                 <div class="absolute top-0 right-0 w-full h-full flex justify-center items-center" v-if="st.playid==item.id">
                     <SvgIcon icon="mdi:pause-circle-outline" class="text-[40px] text-[#fff]" v-if="sp.status=='pause'"></SvgIcon>
-                    <SvgIcon icon="mdi:play-circle-outline" class="text-[40px] text-[#fff]" v-else></SvgIcon>
+                    <SvgIcon icon="svg-spinners:bars-scale-middle" class="text-[40px] text-[#fff]" v-else></SvgIcon>
                 </div>
             </template>
             <template v-else>
