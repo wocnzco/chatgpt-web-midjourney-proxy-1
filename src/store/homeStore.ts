@@ -50,6 +50,7 @@ export interface gptConfigType{
     frequency_penalty?:number
     presence_penalty?:number
     tts_voice?:string //TTS 人物
+    forbidden_stream?:boolean //禁用stream
 }
 const getGptInt= ():gptConfigType =>{
     let v:gptConfigType=getDefault();
@@ -150,7 +151,7 @@ let v:gptServerType={
         LUMA_KEY:'',
         VIGGLE_SERVER:'',
         VIGGLE_KEY:'',
-        TAB_VIDEO:'luma',
+        TAB_VIDEO:'all',
         RUNWAY_SERVER:'',
         RUNWAY_KEY:'',
         IDEO_SERVER:'',

@@ -73,7 +73,9 @@ export const blob2file= ( blob:Blob,fileName:string )=>{
 }
 
 export const  isFileMp3= (filename:string )=>{
-    let arr='.mp3, .mp4, .mpeg, .mpga, .m4a, .wav, .webm'.split(/[, ]+/ig);
+    //let arr='.mp3, .mp4, .mpeg, .mpga, .m4a, .wav, .webm'.split(/[, ]+/ig);
+    // 修复： https://github.com/Dooy/chatgpt-web-midjourney-proxy/issues/666
+    let arr='.mp3, .mpeg, .mpga, .m4a, .wav, .webm'.split(/[, ]+/ig);
     mlog('fileIsMp3', arr );
     filename= filename.toLocaleLowerCase();
     for(let ext of arr ){
@@ -404,7 +406,7 @@ export const isCanBase64Model=(model:string)=>{
         return true
     }
     //if(model.indexOf('sonnet')>-1 ) return true ;
-    let visionArr=['gemini-pro-vision','gpt-4o-2024-08-06','gpt-4o-2024-11-20','gpt-4o','gpt-4o-2024-05-13','gpt-4o-mini','gpt-4o-mini-2024-07-18','gemini-pro-1.5','gpt-4-turbo','gpt-4-turbo-2024-04-09','gpt-4-vision-preview','luma-video','claude-3-5-sonnet-20240620' ,'claude-3-sonnet-20240229','claude-3-opus-20240229', defaultVisionModel() ]
+    let visionArr=['gemini-pro-vision','gpt-4o-2024-08-06','gpt-4o-2024-11-20','gpt-4o','gpt-4o-2024-05-13','gpt-4o-mini','gpt-4o-mini-2024-07-18','gemini-pro-1.5','gpt-4-turbo','gpt-4-turbo-2024-04-09','gpt-4-vision-preview','luma-video','claude-3-5-sonnet-20240620' ,'claude-3-sonnet-20240229','claude-3-opus-20240229','gpt-4-vision-preview', defaultVisionModel() ]
     if( homeStore.myData.session.customVisionModel ){ 
         homeStore.myData.session.customVisionModel.split(/[ ,]+/ig).map( (v:string)=>{
             visionArr.push( v.toLocaleLowerCase() )
@@ -421,7 +423,8 @@ export const defaultVisionModel=()=>{
     if( homeStore.myData.session && homeStore.myData.session.visionModel ){
         return  homeStore.myData.session.visionModel
     }
-    return 'gpt-4-vision-preview'
+    //return 'gpt-4-vision-preview'
+    return 'gpt-4o'
 }
 
 export const isTTS= ( model:string )=>{
